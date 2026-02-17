@@ -67,17 +67,17 @@ window.addEventListener('mousemove', (e) => {
 });
 
 // 2. 设置互动放大效果
-// 选中所有你希望鼠标移上去能产生变化的元素（比如大图片模块、底部的CTA按钮）
 const interactives = document.querySelectorAll('.image-block, .cta-button');
 
 interactives.forEach((el) => {
-    // 鼠标进入时：给圆环加上 is-active 类，CSS 会自动处理放大和毛玻璃效果
+    // 鼠标进入时
     el.addEventListener('mouseenter', () => {
-        follower.classList.add('is-active');
+        follower.classList.add('is-active'); // 大圆环变大
+        cursor.classList.add('is-hidden');   // 【新增】小圆点隐藏
     });
     
-    // 鼠标离开时：移除特效，恢复原状
+    // 鼠标离开时
     el.addEventListener('mouseleave', () => {
-        follower.classList.remove('is-active');
+        follower.classList.remove('is-active'); // 大圆环恢复
+        cursor.classList.remove('is-hidden');   // 【新增】小圆点现身
     });
-});
