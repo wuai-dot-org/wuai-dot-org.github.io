@@ -1,9 +1,9 @@
-/* 基础与色彩变量 */
 :root {
-    --bg-color: #F5F2EB; /* 高级米色 */
-    --text-main: #2D2B2A; /* 深碳灰，比纯黑更柔和 */
-    --text-muted: #7A7571; /* 柔和的灰色 */
-    --line-color: #D6D1C4; /* 线条颜色 */
+    --bg-color: #F5F2EB;
+    --text-main: #2D2B2A;
+    --text-muted: #7A7571;
+    --line-color: #D6D1C4;
+    --accent-color: #2D2B2A; /* 用于按钮的高亮色 */
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -11,111 +11,110 @@
 body {
     background-color: var(--bg-color);
     color: var(--text-main);
-    font-family: "Helvetica Neue", Arial, "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    font-family: "Helvetica Neue", Arial, sans-serif;
     overflow-x: hidden;
-    -webkit-font-smoothing: antialiased; /* 让字体更平滑 */
+    -webkit-font-smoothing: antialiased;
+    position: relative; /* 为背景元素定位 */
 }
 
-/* 高级排版 */
-h1 {
-    font-size: 5rem;
-    font-weight: 500;
-    letter-spacing: -0.02em;
-    margin: 20px 0;
-}
-
-h2 {
-    font-size: 2.8rem;
-    font-weight: 500;
-    margin-bottom: 20px;
-}
-
-p {
-    font-size: 1.1rem;
-    color: var(--text-muted);
-    line-height: 1.8;
-}
-
-.subtitle, .section-num {
-    font-size: 0.9rem;
-    letter-spacing: 0.1em;
-    color: var(--text-main);
-    text-transform: uppercase;
-}
-
-/* 核心动画组件：动态线条 */
-.draw-line {
-    height: 1px;
-    background-color: var(--line-color);
-    width: 0%; /* 初始宽度为0，等待JS控制 */
-    margin: 30px 0;
-}
-
-/* 核心动画组件：文字遮罩上浮 (Text Reveal) */
-.text-reveal {
-    overflow: hidden; /* 隐藏超出范围的文字 */
-    margin-bottom: 10px;
-}
-.text-reveal span {
-    display: block;
-    transform: translateY(110%); /* 初始状态把文字推到下面隐藏 */
-}
-
-/* 布局控制 */
-.hero {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.content-section {
-    padding: 100px 0;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    gap: 8%;
-    padding: 0 40px;
-}
-
-.reverse .container {
-    flex-direction: row-reverse;
-}
-
-.text-block {
-    flex: 1;
-}
-
-/* 核心动画组件：图片遮罩滑出 */
-.image-block {
-    flex: 1.2;
-    height: 80vh;
-    position: relative;
+/* --- 【新增 1】背景装饰元素样式 --- */
+.background-elements {
+    position: fixed; /* 固定定位，不随滚动条移动 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* 置于最底层 */
+    pointer-events: none; /* 确保不影响鼠标点击 */
     overflow: hidden;
+    color: var(--line-color); /* SVG线条跟随这个颜色 */
 }
 
-.reveal-overlay {
+.bg-shape {
+    position: absolute;
+    opacity: 0.6; /* 极低透明度，似有若无 */
+}
+
+.shape-1 {
+    top: -20%;
+    right: -10%;
+    width: 800px;
+    height: 800px;
+}
+
+.shape-2 {
+    bottom: -10%;
+    left: -15%;
+    width: 600px;
+    height: 600px;
+}
+/* ------------------------------- */
+
+
+h1 { font-size: 5rem; font-weight: 500; letter-spacing: -0.02em; margin: 20px 0; }
+h2 { font-size: 2.8rem; font-weight: 500; margin-bottom: 20px; }
+p { font-size: 1.1rem; color: var(--text-muted); line-height: 1.8; }
+.subtitle, .section-num { font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; }
+
+.draw-line { height: 1px; background-color: var(--line-color); width: 0%; margin: 30px 0; }
+.draw-line.center-line { margin: 30px auto; } /* 首屏线条居中 */
+.text-reveal { overflow: hidden; margin-bottom: 10px; }
+.text-reveal span { display: block; transform: translateY(110%); }
+
+.hero { height: 100vh; display: flex; justify-content: center; align-items: center; text-align: center; }
+.content-section { padding: 100px 0; }
+.container { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 8%; padding: 0 40px; }
+.reverse .container { flex-direction: row-reverse; }
+.text-block { flex: 1; }
+.image-block { flex: 1.2; height: 80vh; position: relative; overflow: hidden; }
+.reveal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--bg-color); z-index: 2; transform-origin: top; }
+.parallax-bg { width: 100%; height: 130%; background-size: cover; background-position: center; position: absolute; top: -15%; z-index: 1; }
+
+/* --- 【新增 2】CTA 板块与按钮样式 --- */
+.cta-section {
+    padding: 150px 0 200px; /* 上下留足空间 */
+    text-align: center;
+    background: linear-gradient(to bottom, var(--bg-color), #EAE6DE); /* 轻微的渐变结尾 */
+}
+
+.cta-button {
+    position: relative;
+    display: inline-block;
+    padding: 18px 50px;
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+    text-decoration: none;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    overflow: hidden; /* 隐藏溢出的填充层 */
+    transition: color 0.4s ease;
+    z-index: 1;
+}
+
+/* 按钮文字层，确保在填充层上面 */
+.btn-text {
+    position: relative;
+    z-index: 2;
+}
+
+/* 按钮填充层（初始在下方隐藏） */
+.btn-fill {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: var(--bg-color); /* 与背景色同色 */
-    z-index: 2;
-    transform-origin: top; /* 设置缩放基点 */
+    background-color: var(--accent-color);
+    z-index: 1;
+    transform: translateY(100%); /* 初始位置在按钮下方 */
+    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); /* 丝滑的贝塞尔曲线 */
 }
 
-.parallax-bg {
-    width: 100%;
-    height: 130%;
-    background-size: cover;
-    background-position: center;
-    position: absolute;
-    top: -15%;
-    z-index: 1;
+/* Hover 效果：文字变米色，填充层升起 */
+.cta-button:hover {
+    color: var(--bg-color);
 }
+.cta-button:hover .btn-fill {
+    transform: translateY(0);
+}
+/* ------------------------------- */
