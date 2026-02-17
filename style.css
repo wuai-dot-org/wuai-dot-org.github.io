@@ -17,39 +17,20 @@ body {
     position: relative; /* 为背景元素定位 */
 }
 
-/* --- 【新增 1】背景装饰元素样式 --- */
-.background-elements {
-    position: fixed; /* 固定定位，不随滚动条移动 */
+/* --- 胶片噪点 / 纸张质感滤镜 --- */
+body::before {
+    content: "";
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; /* 置于最底层 */
-    pointer-events: none; /* 确保不影响鼠标点击 */
-    overflow: hidden;
-    color: var(--line-color); /* SVG线条跟随这个颜色 */
+    width: 100vw;
+    height: 100vh;
+    /* 利用 SVG 生成噪点，无需外部图片，极速加载 */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.05; /* 透明度极低，似有若无才是最高级的 */
+    z-index: 9999; /* 浮在网页最顶层 */
+    pointer-events: none; /* 穿透点击，完全不影响你点按钮和滚动 */
 }
-
-.bg-shape {
-    position: absolute;
-    opacity: 0.6; /* 极低透明度，似有若无 */
-}
-
-.shape-1 {
-    top: -20%;
-    right: -10%;
-    width: 800px;
-    height: 800px;
-}
-
-.shape-2 {
-    bottom: -10%;
-    left: -15%;
-    width: 600px;
-    height: 600px;
-}
-/* ------------------------------- */
-
 
 h1 { font-size: 5rem; font-weight: 500; letter-spacing: -0.02em; margin: 20px 0; }
 h2 { font-size: 2.8rem; font-weight: 500; margin-bottom: 20px; }
