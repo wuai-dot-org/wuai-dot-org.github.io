@@ -4,196 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>永不落幕的校园</title>
-    <style>
-        /* 核心重置与苹果风排版 */
-        :root {
-            --bg-color: #000000;
-            --text-main: #f5f5f7;
-            --text-muted: #86868b;
-        }
-        body, html {
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            overflow-x: hidden;
-        }
-        
-        /* 导航栏 */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: saturate(180%) blur(20px);
-            padding: 15px 0;
-            text-align: center;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        nav a {
-            color: var(--text-main);
-            text-decoration: none;
-            margin: 0 20px;
-            font-size: 14px;
-            letter-spacing: 1px;
-            transition: color 0.3s;
-        }
-        nav a:hover {
-            color: var(--text-muted);
-        }
-
-        /* 全屏模块通用样式 */
-        section {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 0 20px;
-            text-align: center;
-        }
-
-        /* 炫酷排版 */
-        h1 {
-            font-size: 5rem;
-            letter-spacing: -0.05em;
-            margin-bottom: 10px;
-            background: linear-gradient(90deg, #fff, #86868b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        h2 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-        }
-        p {
-            font-size: 1.5rem;
-            color: var(--text-muted);
-            max-width: 800px;
-            line-height: 1.5;
-        }
-
-        /* 卡片网格（用于展示不同内容区块） */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            width: 100%;
-            max-width: 1200px;
-            margin-top: 50px;
-        }
-        .card {
-            background: #111111;
-            padding: 40px;
-            border-radius: 20px;
-            text-align: left;
-            transition: transform 0.4s ease;
-        }
-        .card:hover {
-            transform: translateY(-10px);
-        }
-        .card h3 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            color: #fff;
-        }
-        .card p {
-            font-size: 1.1rem;
-        }
-
-        /* 滚动动画的核心 CSS */
-        .fade-in-section {
-            opacity: 0;
-            transform: translateY(10vh);
-            visibility: hidden;
-            transition: opacity 1s ease-out, transform 1s ease-out;
-            will-change: opacity, visibility;
-        }
-        .fade-in-section.is-visible {
-            opacity: 1;
-            transform: none;
-            visibility: visible;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <nav>
-        <a href="#hero">序言</a>
-        <a href="#memories">闪耀时刻</a>
-        <a href="#gallery">影像志</a>
-        <a href="#farewell">告别</a>
-    </nav>
-
-    <section id="hero" class="fade-in-section">
-        <h1>再见，母校。</h1>
-        <p>物理的建筑或许会消失，但传奇，永不落幕。</p>
-    </section>
-
-    <section id="memories" class="fade-in-section">
-        <h2>奇思妙想的培养皿。</h2>
-        <p>这里不仅仅是教室，更是我们丈量世界、创造未来的起点。</p>
-        
-        <div class="grid-container">
-            <div class="card">
-                <h3>硬核记忆</h3>
-                <p>还记得那个晚自习的夜晚吗？那是无数个熬夜的夜晚拼凑出的未来轮廓。</p>
-            </div>
-            <div class="card">
-                <h3>广阔的文化视野</h3>
-                <p>从屋顶的飞檐翘角，到操场的喧嚣，给了我们平视世界的底气。</p>
-            </div>
-            <div class="card">
-                <h3>未完待续的青春</h3>
-                <p>操场上的汗水，晚自习的窃窃私语，还有那些没来得及送出去的信。每一段故事，都值得被最高清的像素记录。</p>
-            </div>
+    <section class="hero">
+        <div class="hero-text fade-up">
+            <h1>再见，母校。</h1>
+            <p>物理的建筑或许会消失，但传奇永不落幕。</p>
         </div>
     </section>
 
-    <section id="gallery" class="fade-in-section">
-        <h2>光影，定格此刻。</h2>
-        <p>（这里可以放置一张横跨全屏的高清校园航拍图，或者一段记录校园日常的背景视频）</p>
-        <div style="width: 100%; max-width: 1000px; height: 500px; background: #222; border-radius: 20px; display: flex; justify-content: center; align-items: center; margin-top: 30px;">
-            <span style="color: #555;">[插入你的超高清校园照片]</span>
+    <section class="parallax-section">
+        <div class="image-container">
+            <div class="parallax-bg" style="background-image: url('https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');"></div>
+        </div>
+        <div class="text-container fade-up">
+            <h2>科创实验室的凌晨。</h2>
+            <p>无数次调试传感器的夜晚，那台自动跟随行李箱终于能稳稳地跟在身后。这里装载的不只是图纸和代码，还有我们丈量世界的野心。</p>
         </div>
     </section>
 
-    <section id="farewell" class="fade-in-section">
-        <h1>这不是终点。</h1>
-        <p>带着这里的火种，去点亮更大的世界。</p>
-        <a href="mailto:your-email@example.com" style="margin-top: 40px; padding: 15px 40px; background: #fff; color: #000; text-decoration: none; border-radius: 30px; font-weight: bold; font-size: 1.2rem; transition: 0.3s;">留下你的故事</a>
+    <section class="parallax-section reverse">
+        <div class="text-container fade-up">
+            <h2>跨越山海的文化对话。</h2>
+            <p>从上海豫园的飞檐翘角，到东京浅草灯笼祭的喧嚣。在那些对比研究的字里行间，我们学会了用更广阔的视野去平视这个世界。</p>
+        </div>
+        <div class="image-container">
+            <div class="parallax-bg" style="background-image: url('https://images.unsplash.com/photo-1542931287-023b922fa89b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');"></div>
+        </div>
     </section>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const observerOptions = {
-                root: null,
-                rootMargin: "0px",
-                threshold: 0.15 // 当模块露出 15% 时触发动画
-            };
+    <section class="footer-hero">
+        <div class="hero-text fade-up">
+            <h1>这不是终点。</h1>
+            <p>带着这里的火种，去点亮更大的世界。</p>
+        </div>
+    </section>
 
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        // 如果你希望滚动回去时动画重置，可以去掉下面这行
-                        observer.unobserve(entry.target); 
-                    }
-                });
-            }, observerOptions);
-
-            const sections = document.querySelectorAll('.fade-in-section');
-            sections.forEach(section => {
-                observer.observe(section);
-            });
-            
-            // 让第一个屏幕一加载就显示
-            setTimeout(() => {
-                document.getElementById('hero').classList.add('is-visible');
-            }, 100);
-        });
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
