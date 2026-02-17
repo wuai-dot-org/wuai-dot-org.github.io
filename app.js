@@ -43,3 +43,41 @@ parallaxBgs.forEach((bg) => {
         scrollTrigger: { trigger: bg.parentElement, start: "top bottom", end: "bottom top", scrub: true }
     });
 });
+
+// --- 自定义光标跟随与互动逻辑 ---
+
+const cursor = document.querySelector('.custom-cursor');
+const follower = document.querySelector('.cursor-follower');
+
+// 1. 监听全局鼠标移动
+window.addEventListener('mousemove', (e) => {
+    // 小圆点：没有任何延迟，瞬间跟上鼠标，保证点击的精准度
+    gsap.set(cursor, {
+        x: e.clientX,
+        y: e.clientY
+    });
+
+    // 大圆环：利用 gsap.to 制造 0.6 秒的延迟到达，产生高级的拖影和阻尼感
+    gsap.to(follower, {
+        x: e.clientX,
+        y: e.clientY,
+        duration: 0.6,
+        ease: "power3.out"
+    });
+});
+
+// 2. 设置互动放大效果
+// 选中所有你希望鼠标移上去能产生变化的元素（比如大图片模块、底部的CTA按钮）
+const interactives = document.querySelectorAll('.image-block, .cta-button');
+
+interactives.forEach((el) => {
+    // 鼠标进入时：给圆环加上 is-active 类，CSS 会自动处理放大和毛玻璃效果
+    el.addEventListener('mouseenter', () => {
+        follower.classList.add('is-active');
+    });
+    
+    // 鼠标离开时：移除特效，恢复原状
+    el.addEventListener('mouseleave', () => {
+        follower.classList.remove('is-active');
+    });
+});
