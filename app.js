@@ -44,40 +44,33 @@ parallaxBgs.forEach((bg) => {
     });
 });
 
-// --- 自定义光标跟随与互动逻辑 ---
+// --- 极简光标跟随与互动逻辑 ---
 
 const cursor = document.querySelector('.custom-cursor');
-const follower = document.querySelector('.cursor-follower');
 
-// 1. 监听全局鼠标移动
+// 强制让 GSAP 处理居中对齐
+gsap.set(cursor, { xPercent: -50, yPercent: -50 });
+
+// 1. 鼠标瞬间跟随（0延迟，完全没有拖拽感）
 window.addEventListener('mousemove', (e) => {
-    // 小圆点：没有任何延迟，瞬间跟上鼠标，保证点击的精准度
-    gsap.set(cursor, {
-        x: e.clientX,
-        y: e.clientY
-    });
-
-    // 大圆环：利用 gsap.to 制造 0.3 秒的延迟到达，产生高级的拖影和阻尼感
-    gsap.to(follower, {
+    gsap.to(cursor, {
         x: e.clientX,
         y: e.clientY,
-        duration: 0.3,
-        ease: "power3.out"
+        duration: 0 // 持续时间设为0，实现跟手级别的实时响应
     });
 });
 
-// 2. 设置互动放大效果
-// 选中所有你希望鼠标移上去能产生变化的元素（比如大图片模块、底部的CTA按钮）
+// 2. 悬停放大变毛玻璃效果
 const interactives = document.querySelectorAll('.image-block, .cta-button');
 
 interactives.forEach((el) => {
-    // 鼠标进入时：给圆环加上 is-active 类，CSS 会自动处理放大和毛玻璃效果
+    // 鼠标移入：加上变大和毛玻璃的 class
     el.addEventListener('mouseenter', () => {
-        follower.classList.add('is-active');
+        cursor.classList.add('is-active');
     });
     
-    // 鼠标离开时：移除特效，恢复原状
+    // 鼠标移出：移除 class，恢复成小圆点
     el.addEventListener('mouseleave', () => {
-        follower.classList.remove('is-active');
+        cursor.classList.remove('is-active');
     });
 });
