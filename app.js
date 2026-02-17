@@ -57,11 +57,11 @@ window.addEventListener('mousemove', (e) => {
         y: e.clientY
     });
 
-    // 大圆环：利用 gsap.to 制造 0.6 秒的延迟到达，产生高级的拖影和阻尼感
+    // 大圆环：利用 gsap.to 制造 0.3 秒的延迟到达，产生高级的拖影和阻尼感
     gsap.to(follower, {
         x: e.clientX,
         y: e.clientY,
-        duration: 0.6,
+        duration: 0.3,
         ease: "power3.out"
     });
 });
