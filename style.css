@@ -115,11 +115,22 @@ p { font-size: 1.1rem; color: var(--text-muted); line-height: 1.8; }
     left: 0;
     width: 6px;
     height: 6px;
-    background-color: var(--text-main); /* 使用深碳灰色 */
+    background-color: var(--text-main);
     border-radius: 50%;
-    pointer-events: none; /* 极其重要：防止光标挡住底下的按钮点击 */
-    z-index: 10000; /* 保持在最顶层 */
-    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 10000;
+    /* 删除原来的 transform，因为现在全部交给 GSAP 接管了 */
+    /* transform: translate(-50%, -50%);  <-- 删除这一行 */
+
+    /* 【新增】添加透明度和大小的过渡动画，让消失更丝滑 */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* 【新增】当添加了 is-hidden 类名时的状态 */
+.custom-cursor.is-hidden {
+    opacity: 0; /* 变透明 */
+    /* 可选：如果你希望它不仅透明，还缩小至消失，可以加上下面这行 */
+    /* transform: scale(0) !important; */ 
 }
 
 /* 3. 外围空心大圆环（拖影效果） */
@@ -141,8 +152,8 @@ p { font-size: 1.1rem; color: var(--text-muted); line-height: 1.8; }
 
 /* 4. 悬浮互动状态（当鼠标移到图片或按钮上时触发） */
 .cursor-follower.is-active {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     background-color: rgba(45, 43, 42, 0.08); /* 微微的填充色 */
     backdrop-filter: blur(4px); /* 高级毛玻璃效果 */
     border-color: transparent;
