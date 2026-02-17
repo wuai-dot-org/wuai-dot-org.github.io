@@ -99,58 +99,47 @@ p { font-size: 1.1rem; color: var(--text-muted); line-height: 1.8; }
     transform: translateY(0);
 }
 /* ------------------------------- */
-/* --- 自定义光标核心样式 --- */
 
-/* 1. 隐藏系统默认的鼠标箭头 */
+/* --- 极简自定义光标样式 --- */
+
+/* 1. 隐藏系统默认光标 */
 @media (pointer: fine) {
     body, a, button {
         cursor: none !important;
     }
 }
 
-/* 2. 中心实心小圆点（精准定位） */
+/* 2. 正常状态：一个干净的实心小圆点 */
 .custom-cursor {
     position: fixed;
     top: 0;
     left: 0;
-    width: 6px;
-    height: 6px;
-    background-color: var(--text-main); /* 使用深碳灰色 */
-    border-radius: 50%;
-    pointer-events: none; /* 极其重要：防止光标挡住底下的按钮点击 */
-    z-index: 10000; /* 保持在最顶层 */
-    transform: translate(-50%, -50%);
-}
-
-/* 3. 外围空心大圆环（拖影效果） */
-.cursor-follower {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 10px;
+    width: 10px; /* 大小可以根据你的喜好微调 */
     height: 10px;
-    border: 1px solid rgba(45, 43, 42, 0.5); /* 半透明的深色边框 */
+    background-color: var(--text-main); /* 深碳灰色 */
     border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
+    pointer-events: none; /* 防止挡住按钮点击 */
+    z-index: 10000;
+    
+    /* 重点：只对形状和颜色做动画，绝对不加 transform */
     transition: width 0.3s cubic-bezier(0.19, 1, 0.22, 1), 
                 height 0.3s cubic-bezier(0.19, 1, 0.22, 1), 
-                background-color 0.3s;
+                background-color 0.3s ease,
+                backdrop-filter 0.3s ease;
 }
 
-/* 4. 悬浮互动状态（当鼠标移到图片或按钮上时触发） */
-.cursor-follower.is-active {
-    width: 20px;
-    height: 20px;
-    background-color: rgba(45, 43, 42, 0.08); /* 微微的填充色 */
-    backdrop-filter: blur(4px); /* 高级毛玻璃效果 */
-    border-color: transparent;
+/* 3. 悬停状态：放大并变成毛玻璃透镜 */
+.custom-cursor.is-active {
+    width: 80px;
+    height: 80px;
+    background-color: rgba(45, 43, 42, 0.08); /* 微微的灰色填充 */
+    backdrop-filter: blur(6px); /* 核心：毛玻璃模糊效果 */
+    -webkit-backdrop-filter: blur(6px); /* 兼容苹果 Safari 浏览器 */
 }
 
-/* 5. 手机端自动隐藏（防止触屏设备出现奇怪的圆圈） */
+/* 4. 手机端自动隐藏 */
 @media (hover: none) and (pointer: coarse) {
-    .custom-cursor, .cursor-follower {
+    .custom-cursor {
         display: none;
     }
 }
