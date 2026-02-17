@@ -1,43 +1,68 @@
-/* 基础重置 */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* 基础与色彩变量 */
+:root {
+    --bg-color: #F5F2EB; /* 高级米色 */
+    --text-main: #2D2B2A; /* 深碳灰，比纯黑更柔和 */
+    --text-muted: #7A7571; /* 柔和的灰色 */
+    --line-color: #D6D1C4; /* 线条颜色 */
 }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-    background-color: #000000;
-    color: #f5f5f7;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: "Helvetica Neue", Arial, "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased; /* 让字体更平滑 */
 }
 
-/* Typography 排版 */
+/* 高级排版 */
 h1 {
     font-size: 5rem;
-    letter-spacing: -0.05em;
-    background: linear-gradient(90deg, #ffffff, #86868b);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 20px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin: 20px 0;
 }
 
 h2 {
-    font-size: 3rem;
-    letter-spacing: -0.03em;
+    font-size: 2.8rem;
+    font-weight: 500;
     margin-bottom: 20px;
-    color: #ffffff;
 }
 
 p {
-    font-size: 1.3rem;
-    color: #86868b;
-    line-height: 1.6;
-    max-width: 500px;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    line-height: 1.8;
 }
 
-/* 全屏纯文本模块 */
-.hero, .footer-hero {
+.subtitle, .section-num {
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    color: var(--text-main);
+    text-transform: uppercase;
+}
+
+/* 核心动画组件：动态线条 */
+.draw-line {
+    height: 1px;
+    background-color: var(--line-color);
+    width: 0%; /* 初始宽度为0，等待JS控制 */
+    margin: 30px 0;
+}
+
+/* 核心动画组件：文字遮罩上浮 (Text Reveal) */
+.text-reveal {
+    overflow: hidden; /* 隐藏超出范围的文字 */
+    margin-bottom: 10px;
+}
+.text-reveal span {
+    display: block;
+    transform: translateY(110%); /* 初始状态把文字推到下面隐藏 */
+}
+
+/* 布局控制 */
+.hero {
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -45,54 +70,52 @@ p {
     text-align: center;
 }
 
-/* 视差图文混合模块 */
-.parallax-section {
-    display: flex;
-    height: 100vh;
-    align-items: center;
-    padding: 0 5%;
-    gap: 5%;
+.content-section {
+    padding: 100px 0;
 }
 
-.parallax-section.reverse {
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 8%;
+    padding: 0 40px;
+}
+
+.reverse .container {
     flex-direction: row-reverse;
 }
 
-.image-container {
+.text-block {
     flex: 1;
-    height: 70vh;
-    border-radius: 20px;
-    overflow: hidden; /* 关键：裁剪掉移出边框的图片 */
-    position: relative;
 }
 
-/* 视差图片本身（高度设为130%，给上下滚动留出空间） */
+/* 核心动画组件：图片遮罩滑出 */
+.image-block {
+    flex: 1.2;
+    height: 80vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.reveal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-color); /* 与背景色同色 */
+    z-index: 2;
+    transform-origin: top; /* 设置缩放基点 */
+}
+
 .parallax-bg {
     width: 100%;
-    height: 130%; 
+    height: 130%;
     background-size: cover;
-    background-position: center 0;
+    background-position: center;
     position: absolute;
-    top: -15%; /* 初始位置向上偏移 */
-}
-
-.text-container {
-    flex: 1;
-    padding: 20px;
-}
-
-/* 响应式：手机端变成上下堆叠 */
-@media (max-width: 768px) {
-    .parallax-section, .parallax-section.reverse {
-        flex-direction: column;
-        justify-content: center;
-        text-align: center;
-    }
-    .image-container {
-        width: 100%;
-        height: 40vh;
-        margin-bottom: 30px;
-    }
-    h1 { font-size: 3rem; }
-    h2 { font-size: 2rem; }
+    top: -15%;
+    z-index: 1;
 }
