@@ -1,41 +1,66 @@
-// 注册 ScrollTrigger 插件
 gsap.registerPlugin(ScrollTrigger);
 
-// 1. 视差背景动画 (Parallax Effect)
-// 选中所有 class 为 parallax-bg 的图片
-const parallaxBgs = document.querySelectorAll('.parallax-bg');
+// 1. 首屏入场动画 (页面加载时触发)
+const tlHero = gsap.timeline();
+tlHero.to('.hero .text-reveal span', {
+    y: 0,
+    duration: 1,
+    stagger: 0.2, // 依次出现，间隔0.2秒
+    ease: "power4.out",
+    delay: 0.2
+})
+.to('.hero .draw-line', {
+    width: '100%',
+    duration: 1.5,
+    ease: "power3.inOut"
+}, "-=0.8"); // 提前0.8秒与上一个动画重叠执行
 
-parallaxBgs.forEach((bg) => {
-    gsap.to(bg, {
-        y: "30%", // 当向下滚动时，图片本身在容器内相对向下移动 30%
-        ease: "none",
+
+// 2. 滚动模块动画 (遍历每个 section)
+const sections = document.querySelectorAll('.content-section');
+
+sections.forEach((sec) => {
+    // 创建一个滚动触发的时间轴
+    const tl = gsap.timeline({
         scrollTrigger: {
-            trigger: bg.parentElement, // 触发器是包裹它的容器
-            start: "top bottom",       // 当容器顶部碰到视口底部时开始
-            end: "bottom top",         // 当容器底部碰到视口顶部时结束
-            scrub: true                // 开启平滑跟随滚动条
+            trigger: sec,
+            start: "top 75%", // 当模块顶部到达屏幕75%时触发
+            toggleActions: "play none none reverse"
         }
     });
+
+    // A. 文本依次上浮
+    tl.to(sec.querySelectorAll('.text-reveal span'), {
+        y: 0,
+        duration: 1,
+        stagger: 0.15,
+        ease: "power3.out"
+    })
+    // B. 线条自动绘制
+    .to(sec.querySelector('.draw-line'), {
+        width: '100%',
+        duration: 1.2,
+        ease: "power3.inOut"
+    }, "-=0.8")
+    // C. 图片遮罩像幕布一样拉开 (高度收缩为0)
+    .to(sec.querySelector('.reveal-overlay'), {
+        scaleY: 0,
+        duration: 1.5,
+        ease: "power4.inOut"
+    }, "-=1.2");
 });
 
-// 2. 文字丝滑浮现动画 (Fade Up)
-// 选中所有需要浮现的文字容器
-const fadeElements = document.querySelectorAll('.fade-up');
-
-fadeElements.forEach((el) => {
-    // 设定初始状态：透明且靠下
-    gsap.set(el, { opacity: 0, y: 50 });
-
-    // 设定滚动触发时的动画
-    gsap.to(el, {
-        opacity: 1,
-        y: 0,
-        duration: 1.2,
-        ease: "power3.out", // 苹果味十足的阻尼缓动曲线
+// 3. 经典的视差背景跟随
+const parallaxBgs = document.querySelectorAll('.parallax-bg');
+parallaxBgs.forEach((bg) => {
+    gsap.to(bg, {
+        y: "30%", 
+        ease: "none",
         scrollTrigger: {
-            trigger: el,
-            start: "top 85%", // 当元素顶部到达视口高度的 85% 时触发
-            toggleActions: "play none none reverse" // 往下滚播放，往上滚反向播放
+            trigger: bg.parentElement,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true
         }
     });
 });
