@@ -40,22 +40,40 @@ p { font-size: 1.1rem; color: var(--text-muted); line-height: 1.8; }
 .draw-line { height: 1px; background-color: var(--line-color); width: 0%; margin: 30px 0; }
 .draw-line.center-line { margin: 30px auto; } /* 首屏线条居中 */
 .text-reveal { overflow: hidden; margin-bottom: 10px; }
-.text-reveal span { display: block; transform: translateY(110%); }
+
+/* 修改点：使用直接子代选择器，防止误伤按钮里的 span */
+.text-reveal > span { display: block; transform: translateY(110%); }
 
 .hero { height: 100vh; display: flex; justify-content: center; align-items: center; text-align: center; }
 .content-section { padding: 100px 0; }
 .container { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 8%; padding: 0 40px; }
 .reverse .container { flex-direction: row-reverse; }
+
+/* 修改点：给 02视野 (reverse) 单独设置纯白背景和边距，让层次分明 */
+.content-section.reverse {
+    background-color: #FFFFFF;
+    padding: 120px 0; 
+}
+
 .text-block { flex: 1; }
 .image-block { flex: 1.2; height: 80vh; position: relative; overflow: hidden; }
 .reveal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--bg-color); z-index: 2; transform-origin: top; }
+
+/* 注意：02 视野遮罩层颜色也要改成纯白保持一致 */
+.content-section.reverse .reveal-overlay { background-color: #FFFFFF; }
+
 .parallax-bg { width: 100%; height: 130%; background-size: cover; background-position: center; position: absolute; top: -15%; z-index: 1; }
 
-/* --- 【新增 2】CTA 板块与按钮样式 --- */
+/* --- 修改点：CTA 板块完美居中 --- */
 .cta-section {
-    padding: 150px 0 200px; /* 上下留足空间 */
+    min-height: 100vh; /* 占满一屏高度 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 垂直居中 */
+    align-items: center;     /* 水平居中 */
     text-align: center;
-    background: linear-gradient(to bottom, var(--bg-color), #EAE6DE); /* 轻微的渐变结尾 */
+    background: linear-gradient(to bottom, var(--bg-color), #EAE6DE);
+    padding: 0; 
 }
 
 .cta-button {
@@ -68,7 +86,6 @@ p { font-size: 1.1rem; color: var(--text-muted); line-height: 1.8; }
     font-size: 1.1rem;
     letter-spacing: 1px;
     overflow: hidden; /* 隐藏溢出的填充层 */
-    transition: color 0.4s ease;
     z-index: 1;
 }
 
@@ -76,6 +93,7 @@ p { font-size: 1.1rem; color: var(--text-muted); line-height: 1.8; }
 .btn-text {
     position: relative;
     z-index: 2;
+    transition: color 0.4s ease; /* 让文字变色也有过渡动画 */
 }
 
 /* 按钮填充层（初始在下方隐藏） */
@@ -92,7 +110,7 @@ p { font-size: 1.1rem; color: var(--text-muted); line-height: 1.8; }
 }
 
 /* Hover 效果：文字变米色，填充层升起 */
-.cta-button:hover {
+.cta-button:hover .btn-text {
     color: var(--bg-color);
 }
 .cta-button:hover .btn-fill {
@@ -100,44 +118,86 @@ p { font-size: 1.1rem; color: var(--text-muted); line-height: 1.8; }
 }
 /* ------------------------------- */
 
-/* --- 极简自定义光标样式 --- */
+/* --- 新增：顶部导航栏 --- */
+.top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 6%;
+    z-index: 1000;
+    background-color: rgba(245, 242, 235, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(214, 209, 196, 0.4);
+}
+.nav-brand {
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--text-main);
+}
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 40px;
+}
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-main);
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    position: relative;
+}
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: -4px;
+    left: 0;
+    background-color: var(--text-main);
+    transition: width 0.3s ease;
+}
+.nav-links a:hover::after {
+    width: 100%;
+}
 
-/* 1. 隐藏系统默认光标 */
+/* --- 极简自定义光标样式 --- */
 @media (pointer: fine) {
     body, a, button {
         cursor: none !important;
     }
 }
 
-/* 2. 正常状态：一个干净的实心小圆点 */
 .custom-cursor {
     position: fixed;
     top: 0;
     left: 0;
-    width: 10px; /* 大小可以根据你的喜好微调 */
+    width: 10px;
     height: 10px;
-    background-color: var(--text-main); /* 深碳灰色 */
+    background-color: var(--text-main);
     border-radius: 50%;
-    pointer-events: none; /* 防止挡住按钮点击 */
+    pointer-events: none;
     z-index: 10000;
-    
-    /* 重点：只对形状和颜色做动画，绝对不加 transform */
     transition: width 0.3s cubic-bezier(0.19, 1, 0.22, 1), 
                 height 0.3s cubic-bezier(0.19, 1, 0.22, 1), 
                 background-color 0.3s ease,
                 backdrop-filter 0.3s ease;
 }
 
-/* 3. 悬停状态：放大并变成毛玻璃透镜 */
 .custom-cursor.is-active {
     width: 80px;
     height: 80px;
-    background-color: rgba(45, 43, 42, 0.08); /* 微微的灰色填充 */
-    backdrop-filter: blur(6px); /* 核心：毛玻璃模糊效果 */
-    -webkit-backdrop-filter: blur(6px); /* 兼容苹果 Safari 浏览器 */
+    background-color: rgba(45, 43, 42, 0.08);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
 }
 
-/* 4. 手机端自动隐藏 */
 @media (hover: none) and (pointer: coarse) {
     .custom-cursor {
         display: none;
