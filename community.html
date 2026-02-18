@@ -46,8 +46,10 @@
             <button id="closeModalBtn" class="close-btn">&times;</button>
             <h2>寄送一封记忆</h2>
             <p class="modal-desc">审核通过后，它将展现在这里。</p>
-            
-            <form action="https://formspree.io/f/你的专属ID" method="POST" enctype="multipart/form-data" class="submit-form">
+            <input type="hidden" name="_subject" value="新的校友故事投稿！">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_next" value="https://你的GitHub用户名.github.io/community.html">
+            <form action="https://formsubmit.co/kylezhangyuan@gmail.com" method="POST" enctype="multipart/form-data" class="submit-form">
                 <div class="form-group">
                     <label>你的名字 / 昵称</label>
                     <input type="text" name="name" required placeholder="例如：24届 计科 张三">
