@@ -1,39 +1,36 @@
 gsap.registerPlugin(ScrollTrigger);
 
-
-
-// 首屏入场动画
+// 首屏入场动画：修改选择器为直接子代 > span
 const tlHero = gsap.timeline();
-tlHero.to('.hero .text-reveal span', { y: 0, duration: 1, stagger: 0.2, ease: "power4.out", delay: 0.2 })
+tlHero.to('.hero .text-reveal > span', { y: 0, duration: 1, stagger: 0.2, ease: "power4.out", delay: 0.2 })
       .to('.hero .draw-line', { width: '100%', duration: 1.5, ease: "power3.inOut" }, "-=0.8");
 
-// 滚动模块动画
+// 滚动模块动画：修改选择器为直接子代 > span
 const sections = document.querySelectorAll('.content-section');
 sections.forEach((sec) => {
     const tl = gsap.timeline({
         scrollTrigger: { trigger: sec, start: "top 75%", toggleActions: "play none none reverse" }
     });
-    tl.to(sec.querySelectorAll('.text-reveal span'), { y: 0, duration: 1, stagger: 0.15, ease: "power3.out" })
+    tl.to(sec.querySelectorAll('.text-reveal > span'), { y: 0, duration: 1, stagger: 0.15, ease: "power3.out" })
       .to(sec.querySelector('.draw-line'), { width: '100%', duration: 1.2, ease: "power3.inOut" }, "-=0.8")
       .to(sec.querySelector('.reveal-overlay'), { scaleY: 0, duration: 1.5, ease: "power4.inOut" }, "-=1.2");
 });
 
-// 【新增 2】底部 CTA 板块的动画
+// 底部 CTA 板块的动画：修改选择器为直接子代 > span
 const ctaSection = document.querySelector('.cta-section');
 const tlCta = gsap.timeline({
     scrollTrigger: {
         trigger: ctaSection,
-        start: "top 80%", // 当板块进入视口 80% 时触发
+        start: "top 80%", 
         toggleActions: "play none none reverse"
     }
 });
-tlCta.to(ctaSection.querySelectorAll('.text-reveal span'), {
+tlCta.to(ctaSection.querySelectorAll('.text-reveal > span'), {
     y: 0,
     duration: 1,
     stagger: 0.2,
     ease: "power3.out"
 });
-
 
 // 视差背景跟随
 const parallaxBgs = document.querySelectorAll('.parallax-bg');
@@ -56,20 +53,18 @@ window.addEventListener('mousemove', (e) => {
     gsap.to(cursor, {
         x: e.clientX,
         y: e.clientY,
-        duration: 0 // 持续时间设为0，实现跟手级别的实时响应
+        duration: 0 
     });
 });
 
-// 2. 悬停放大变毛玻璃效果
-const interactives = document.querySelectorAll('.image-block, .cta-button');
+// 2. 悬停放大变毛玻璃效果 (增加 .nav-links a 让导航栏也有交互效果)
+const interactives = document.querySelectorAll('.image-block, .cta-button, .nav-links a');
 
 interactives.forEach((el) => {
-    // 鼠标移入：加上变大和毛玻璃的 class
     el.addEventListener('mouseenter', () => {
         cursor.classList.add('is-active');
     });
     
-    // 鼠标移出：移除 class，恢复成小圆点
     el.addEventListener('mouseleave', () => {
         cursor.classList.remove('is-active');
     });
