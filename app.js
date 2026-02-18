@@ -1,11 +1,27 @@
 gsap.registerPlugin(ScrollTrigger);
 
-// 首屏入场动画：修改选择器为直接子代 > span
-const tlHero = gsap.timeline();
-tlHero.to('.hero .text-reveal > span', { y: 0, duration: 1, stagger: 0.2, ease: "power4.out", delay: 0.2 })
-      .to('.hero .draw-line', { width: '100%', duration: 1.5, ease: "power3.inOut" }, "-=0.8");
+// ==========================================
+// 1. 首屏入场动画 (仅在包含 .hero 的页面生效)
+// ==========================================
+const hero = document.querySelector('.hero');
+if (hero) {
+    const tlHero = gsap.timeline();
+    tlHero.to('.hero .text-reveal > span', { y: 0, duration: 1, stagger: 0.2, ease: "power4.out", delay: 0.2 })
+          .to('.hero .draw-line', { width: '100%', duration: 1.5, ease: "power3.inOut" }, "-=0.8");
+}
 
-// 滚动模块动画：修改选择器为直接子代 > span
+// ==========================================
+// 2. 社区头部入场动画 (仅在 community.html 生效)
+// ==========================================
+const communityHeader = document.querySelector('.community-header');
+if (communityHeader) {
+    const tlComm = gsap.timeline();
+    tlComm.to('.community-header .text-reveal > span', { y: 0, duration: 1, stagger: 0.2, ease: "power4.out", delay: 0.2 });
+}
+
+// ==========================================
+// 3. 滚动模块动画 (安全遍历)
+// ==========================================
 const sections = document.querySelectorAll('.content-section');
 sections.forEach((sec) => {
     const tl = gsap.timeline({
@@ -16,23 +32,29 @@ sections.forEach((sec) => {
       .to(sec.querySelector('.reveal-overlay'), { scaleY: 0, duration: 1.5, ease: "power4.inOut" }, "-=1.2");
 });
 
-// 底部 CTA 板块的动画：修改选择器为直接子代 > span
+// ==========================================
+// 4. 底部 CTA 板块的动画 (仅当存在时生效)
+// ==========================================
 const ctaSection = document.querySelector('.cta-section');
-const tlCta = gsap.timeline({
-    scrollTrigger: {
-        trigger: ctaSection,
-        start: "top 80%", 
-        toggleActions: "play none none reverse"
-    }
-});
-tlCta.to(ctaSection.querySelectorAll('.text-reveal > span'), {
-    y: 0,
-    duration: 1,
-    stagger: 0.2,
-    ease: "power3.out"
-});
+if (ctaSection) {
+    const tlCta = gsap.timeline({
+        scrollTrigger: {
+            trigger: ctaSection,
+            start: "top 80%", 
+            toggleActions: "play none none reverse"
+        }
+    });
+    tlCta.to(ctaSection.querySelectorAll('.text-reveal > span'), {
+        y: 0,
+        duration: 1,
+        stagger: 0.2,
+        ease: "power3.out"
+    });
+}
 
-// 视差背景跟随
+// ==========================================
+// 5. 视差背景跟随
+// ==========================================
 const parallaxBgs = document.querySelectorAll('.parallax-bg');
 parallaxBgs.forEach((bg) => {
     gsap.to(bg, {
@@ -41,74 +63,50 @@ parallaxBgs.forEach((bg) => {
     });
 });
 
-// --- 极简光标跟随与互动逻辑 ---
-
+// ==========================================
+// 6. 极简光标跟随与互动逻辑
+// ==========================================
 const cursor = document.querySelector('.custom-cursor');
-
-// 强制让 GSAP 处理居中对齐
-gsap.set(cursor, { xPercent: -50, yPercent: -50 });
-
-// 1. 鼠标瞬间跟随（0延迟，完全没有拖拽感）
-window.addEventListener('mousemove', (e) => {
-    gsap.to(cursor, {
-        x: e.clientX,
-        y: e.clientY,
-        duration: 0 
+if (cursor) {
+    gsap.set(cursor, { xPercent: -50, yPercent: -50 });
+    window.addEventListener('mousemove', (e) => {
+        gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0 });
     });
-});
 
-// 2. 悬停放大变毛玻璃效果 (增加 .nav-links a 让导航栏也有交互效果)
-const interactives = document.querySelectorAll('.image-block, .cta-button, .nav-links a');
-
-interactives.forEach((el) => {
-    el.addEventListener('mouseenter', () => {
-        cursor.classList.add('is-active');
+    const interactives = document.querySelectorAll('.image-block, .cta-button, .nav-links a');
+    interactives.forEach((el) => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('is-active'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('is-active'));
     });
-    
-    el.addEventListener('mouseleave', () => {
-        cursor.classList.remove('is-active');
-    });
-});
+}
 
-/* =========================================
-   校友社区交互逻辑 (仅在 community.html 生效)
-   ========================================= */
-
-// 1. 弹窗控制逻辑
+// ==========================================
+// 7. 校友社区交互逻辑 (仅在 community.html 生效)
+// ==========================================
 const modal = document.getElementById('submitModal');
 const openModalBtn = document.getElementById('openModalBtn');
 const closeModalBtn = document.getElementById('closeModalBtn');
 
 if (modal && openModalBtn && closeModalBtn) {
-    // 修复原有的 interactives 光标绑定，把新按钮加进去
-    openModalBtn.addEventListener('mouseenter', () => cursor.classList.add('is-active'));
-    openModalBtn.addEventListener('mouseleave', () => cursor.classList.remove('is-active'));
-    closeModalBtn.addEventListener('mouseenter', () => cursor.classList.add('is-active'));
-    closeModalBtn.addEventListener('mouseleave', () => cursor.classList.remove('is-active'));
+    openModalBtn.addEventListener('mouseenter', () => cursor && cursor.classList.add('is-active'));
+    openModalBtn.addEventListener('mouseleave', () => cursor && cursor.classList.remove('is-active'));
+    closeModalBtn.addEventListener('mouseenter', () => cursor && cursor.classList.add('is-active'));
+    closeModalBtn.addEventListener('mouseleave', () => cursor && cursor.classList.remove('is-active'));
 
-    openModalBtn.addEventListener('click', () => {
-        modal.classList.add('active');
-    });
-
-    closeModalBtn.addEventListener('click', () => {
-        modal.classList.remove('active');
-    });
-
-    // 点击背景也能关闭
+    openModalBtn.addEventListener('click', () => modal.classList.add('active'));
+    closeModalBtn.addEventListener('click', () => modal.classList.remove('active'));
     modal.addEventListener('click', (e) => {
         if (e.target === modal) modal.classList.remove('active');
     });
 }
 
-// 2. 动态读取 R2 内容并生成瀑布流卡片
+// 动态读取内容并生成瀑布流卡片
 const galleryGrid = document.getElementById('gallery-grid');
-
 if (galleryGrid) {
-    // 【替换这里】：未来这里换成你部署在 R2 上的 JSON 文件直链地址
-    // 比如：const r2DataUrl = "https://your-custom-domain.com/community-data.json";
+    // 【修改点】：以后这里填你的 R2 JSON 直链地址
     const r2DataUrl = null; 
 
-    // 预置的 Mock 数据（当没有 R2 链接时展示）
+    // 预置的骨架内容
     const mockData = [
         {
             name: "李华",
@@ -123,8 +121,7 @@ if (galleryGrid) {
     ];
 
     function renderCards(data) {
-        galleryGrid.innerHTML = ''; // 清空加载骨架
-        
+        galleryGrid.innerHTML = ''; 
         data.forEach(item => {
             const card = document.createElement('div');
             card.className = 'gallery-card';
@@ -135,36 +132,33 @@ if (galleryGrid) {
             `;
             galleryGrid.appendChild(card);
             
-            // 给卡片加上光标交互
-            card.addEventListener('mouseenter', () => cursor.classList.add('is-active'));
-            card.addEventListener('mouseleave', () => cursor.classList.remove('is-active'));
+            // 给生成的卡片加上鼠标互动放大效果
+            if(cursor) {
+                card.addEventListener('mouseenter', () => cursor.classList.add('is-active'));
+                card.addEventListener('mouseleave', () => cursor.classList.remove('is-active'));
+            }
         });
 
-        // 给生成的卡片加上 GSAP 滚动浮现动画
+        // 瀑布流图片依次平滑浮现
         gsap.to('.gallery-card', {
             y: 0,
             opacity: 1,
             duration: 0.8,
             stagger: 0.15,
             ease: "power3.out",
-            scrollTrigger: {
-                trigger: galleryGrid,
-                start: "top 85%"
-            }
+            scrollTrigger: { trigger: galleryGrid, start: "top 85%" }
         });
     }
 
-    // 尝试获取 R2 数据，如果失败或没配置，就加载预置的 Mock 数据
     if (r2DataUrl) {
         fetch(r2DataUrl)
             .then(response => response.json())
             .then(data => renderCards(data))
             .catch(err => {
-                console.error("加载 R2 数据失败，加载预置内容", err);
+                console.error("加载 R2 数据失败", err);
                 renderCards(mockData);
             });
     } else {
-        // 直接渲染预置内容
-        setTimeout(() => renderCards(mockData), 500); // 假装有个加载延迟
+        setTimeout(() => renderCards(mockData), 300); 
     }
 }
