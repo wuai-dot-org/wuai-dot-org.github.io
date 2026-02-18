@@ -357,3 +357,156 @@ p { font-size: 1.1rem; color: var(--text-muted); line-height: 1.8; }
     transition: background-color 0.3s;
 }
 .submit-btn:hover { background-color: #444; }
+/* =========================================
+   小红书风格详情弹窗样式
+   ========================================= */
+
+/* 1. 遮罩层 */
+.detail-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.6); /* 深色背景更能沉浸 */
+    backdrop-filter: blur(10px);
+    z-index: 100000; /* 最高层级 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+.detail-modal-overlay.active { opacity: 1; pointer-events: auto; }
+
+/* 2. 弹窗主体 (仿小红书笔记卡片) */
+.detail-modal-content {
+    background: #fff;
+    width: 90vw;
+    max-width: 1000px;
+    height: 85vh; /* 固定高度 */
+    border-radius: 16px;
+    overflow: hidden; /* 圆角 */
+    position: relative;
+    display: flex;
+    flex-direction: row; /* 左右布局 */
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    transform: scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.detail-modal-overlay.active .detail-modal-content { transform: scale(1); }
+
+/* 关闭按钮 */
+.close-detail-btn {
+    position: absolute;
+    top: 15px; left: 15px; /* 放左上角或者图片上 */
+    z-index: 10;
+    background: rgba(0,0,0,0.3);
+    color: white;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+}
+.close-detail-btn:hover { background: rgba(0,0,0,0.6); }
+
+.detail-layout { display: flex; width: 100%; height: 100%; }
+
+/* --- 左侧：图片轮播区 --- */
+.detail-images {
+    flex: 1.4; /* 图片占宽一点 */
+    background: #000;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+}
+
+.image-slider {
+    display: flex;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    height: 100%;
+    width: 100%;
+}
+
+.slide-item {
+    min-width: 100%;
+    height: 100%;
+    display: flex; align-items: center; justify-content: center;
+}
+.slide-item img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* 保持比例完整显示 */
+}
+
+/* 轮播按钮 */
+.slider-nav {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    background: rgba(255,255,255,0.2);
+    border: none; color: white;
+    padding: 10px; cursor: pointer;
+    border-radius: 50%;
+    opacity: 0; transition: opacity 0.3s;
+}
+.detail-images:hover .slider-nav { opacity: 1; }
+.prev { left: 10px; }
+.next { right: 10px; }
+
+/* 轮播点 */
+.slider-dots {
+    position: absolute; bottom: 20px; left: 0; width: 100%;
+    display: flex; justify-content: center; gap: 8px;
+}
+.dot { width: 6px; height: 6px; background: rgba(255,255,255,0.5); border-radius: 50%; }
+.dot.active { background: white; transform: scale(1.2); }
+
+/* --- 右侧：信息区 --- */
+.detail-info {
+    flex: 1;
+    padding: 30px;
+    display: flex; flex-direction: column;
+    background: #fff;
+    border-left: 1px solid #eee;
+}
+
+.author-info {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 20px; padding-bottom: 15px;
+    border-bottom: 1px solid #f5f5f5;
+}
+.avatar-circle {
+    width: 40px; height: 40px;
+    background: #eee; border-radius: 50%;
+    background-image: url('https://ui-avatars.com/api/?name=User&background=random'); /* 默认头像 */
+    background-size: cover;
+}
+.author-info h3 { font-size: 1.1rem; margin: 0; color: #333; }
+
+.scrollable-text {
+    flex-grow: 1;
+    overflow-y: auto; /* 文字太长可以滚动 */
+    padding-right: 10px;
+}
+.scrollable-text p {
+    font-size: 1rem; color: #444; line-height: 1.7;
+    white-space: pre-wrap; /* 保留换行符 */
+}
+
+.detail-footer {
+    margin-top: 20px; padding-top: 15px;
+    border-top: 1px solid #f5f5f5;
+    font-size: 0.8rem; color: #aaa;
+}
+
+/* --- 移动端适配 --- */
+@media (max-width: 768px) {
+    .detail-modal-content {
+        flex-direction: column; /* 上下图文 */
+        height: 90vh;
+        width: 95vw;
+    }
+    .detail-images { flex: 1; min-height: 40vh; }
+    .detail-info { flex: 1; padding: 20px; }
+    .close-detail-btn { top: 10px; right: 10px; left: auto; }
+}
