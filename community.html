@@ -75,32 +75,28 @@
         <div class="modal-content">
             <button id="closeModalBtn" class="close-btn">&times;</button>
             <h2>寄送一封记忆</h2>
-            <p class="modal-desc">支持上传多张照片，展现更多细节。</p>
+            <p class="modal-desc">一张旧照，或是一段文字，都是珍贵的记忆。</p>
             
-            <form action="https://api.web3forms.com/submit" method="POST" enctype="multipart/form-data" class="submit-form">
-    
-    <input type="hidden" name="access_key" value="69177786-1528-4074-8aec-55771cbb4e75">
-    
-    <input type="hidden" name="subject" value="新的多图校友投稿！">
-    <input type="hidden" name="from_name" value="校友社区投稿">
-    <input type="hidden" name="redirect" value="https://KylezXing.github.io/community.html">
-    <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+            <form action="https://formsubmit.co/16c4f24a794d820aacd1f721448208bd" method="POST" enctype="multipart/form-data" class="submit-form">
+                <input type="hidden" name="_subject" value="新的校友投稿！">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="https://KylezXing.github.io/community.html">
 
-    <div class="form-group">
-        <label>你的名字 / 昵称</label>
-        <input type="text" name="name" required placeholder="例如：24届 计科 张三">
-    </div>
-    <div class="form-group">
-        <label>背后的故事</label>
-        <textarea name="story" rows="4" required placeholder="写下关于这些照片的回忆..."></textarea>
-    </div>
-    <div class="form-group">
-        <label>上传照片 (支持多选)</label>
-        <input type="file" name="attachment[]" id="fileInput" accept="image/*" multiple required class="file-input">
-        <p style="font-size: 0.8rem; color: #999; margin-top: 5px;">* 按住 Ctrl 或 Cmd 键可选择多张</p>
-    </div>
-    <button type="submit" class="submit-btn">发送至邮箱</button>
-</form>
+                <div class="form-group">
+                    <label>你的名字 / 昵称</label>
+                    <input type="text" name="name" required placeholder="例如：24届 计科 张三">
+                </div>
+                <div class="form-group">
+                    <label>背后的故事</label>
+                    <textarea name="story" rows="4" required placeholder="写下关于这段回忆的故事..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>上传照片 (可选)</label>
+                    <input type="file" name="attachment" accept="image/*" class="file-input">
+                    <p style="font-size: 0.8rem; color: #999; margin-top: 5px;">* 仅支持单张图片，若无照片可直接投稿文字</p>
+                </div>
+                <button type="submit" class="submit-btn">发送至邮箱</button>
+            </form>
         </div>
     </div>
 
