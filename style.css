@@ -203,3 +203,157 @@ p { font-size: 1.1rem; color: var(--text-muted); line-height: 1.8; }
         display: none;
     }
 }
+/* =========================================
+   校友社区专属样式
+   ========================================= */
+
+.community-header {
+    padding: 150px 0 80px;
+    text-align: center;
+    background-color: var(--bg-color);
+}
+
+.gallery-section {
+    padding: 40px 0 100px;
+    background-color: #FFFFFF; /* 用纯白区分展示区 */
+    min-height: 50vh;
+}
+
+/* 瀑布流/网格展示区 */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1px));
+    gap: 40px;
+    width: 100%;
+}
+
+.gallery-card {
+    background: var(--bg-color);
+    padding: 20px;
+    opacity: 0; /* 配合 GSAP 动画 */
+    transform: translateY(30px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-card:hover {
+    transform: translateY(25px); /* 悬停微浮 */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.gallery-card img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    margin-bottom: 15px;
+    filter: grayscale(20%); /* 微微的黑白滤镜，更具回忆感 */
+    transition: filter 0.3s ease;
+}
+
+.gallery-card:hover img {
+    filter: grayscale(0%);
+}
+
+.gallery-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.gallery-card p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.placeholder {
+    text-align: center;
+    padding: 50px;
+    color: var(--text-muted);
+    grid-column: 1 / -1;
+}
+
+/* =========================================
+   投稿弹窗 (Modal) 样式
+   ========================================= */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(45, 43, 42, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none; /* 默认不可点击 */
+    transition: opacity 0.4s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background-color: var(--bg-color);
+    padding: 50px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    transform: translateY(20px);
+    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.modal-overlay.active .modal-content {
+    transform: translateY(0);
+}
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--text-muted);
+    cursor: none; /* 使用自定义光标 */
+    transition: color 0.3s;
+}
+.close-btn:hover { color: var(--text-main); }
+
+.modal-desc { margin-bottom: 30px; font-size: 0.95rem; }
+
+.submit-form .form-group { margin-bottom: 25px; text-align: left; }
+.submit-form label { display: block; font-size: 0.9rem; margin-bottom: 8px; font-weight: 500; letter-spacing: 1px; }
+.submit-form input[type="text"],
+.submit-form textarea {
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    border: 1px solid var(--line-color);
+    color: var(--text-main);
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+.submit-form input:focus, .submit-form textarea:focus {
+    outline: none;
+    border-color: var(--text-main);
+}
+.submit-form .file-input { font-size: 0.9rem; color: var(--text-muted); }
+
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    font-size: 1.05rem;
+    letter-spacing: 2px;
+    cursor: none;
+    transition: background-color 0.3s;
+}
+.submit-btn:hover { background-color: #444; }
