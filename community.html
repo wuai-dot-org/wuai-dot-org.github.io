@@ -6,70 +6,102 @@
     <title>校友社区 | 记忆流淌</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<section class="gallery-section">
-    <div class="container" style="display: block;">
-        <div id="gallery-grid" class="gallery-grid">
-            <div class="gallery-card placeholder">加载中...</div>
-        </div>
-    </div>
-</section>
+<body>
+    <div class="custom-cursor"></div>
 
-<div id="detailModal" class="detail-modal-overlay">
-    <div class="detail-modal-content">
-        <button id="closeDetailBtn" class="close-detail-btn">&times;</button>
-        
-        <div class="detail-layout">
-            <div class="detail-images">
-                <div class="image-slider" id="detailSlider">
-                    </div>
-                <div class="slider-dots" id="sliderDots">
-                    </div>
-                <button class="slider-nav prev" id="sliderPrev">&#10094;</button>
-                <button class="slider-nav next" id="sliderNext">&#10095;</button>
-            </div>
+    <nav class="top-nav">
+        <div class="nav-brand">KylezXing</div>
+        <ul class="nav-links">
+            <li><a href="index.html#explore">01 / 探索</a></li>
+            <li><a href="index.html#vision">02 / 视野</a></li>
+            <li><a href="community.html" style="color: #888888;">校友社区</a></li>
+        </ul>
+    </nav>
 
-            <div class="detail-info">
-                <div class="author-info">
-                    <div class="avatar-circle" id="detailAvatar"></div>
-                    <h3 id="detailName"></h3>
-                </div>
-                <div class="scrollable-text">
-                    <p id="detailStory"></p>
-                </div>
-                <div class="detail-footer">
-                    <span>记忆留存由 KylezXing 呈现</span>
-                </div>
+    <section class="community-header">
+        <div class="header-content">
+            <h1 class="text-reveal"><span>记忆流淌的地方。</span></h1>
+            <p class="description text-reveal"><span>每一张照片，每一段文字，都是拼凑我们共同校园记忆的拼图。</span></p>
+            <div class="text-reveal" style="margin-top: 30px;">
+                <span>
+                    <button id="openModalBtn" class="cta-button">
+                        <span class="btn-text">投稿分享你的故事</span>
+                        <span class="btn-fill"></span>
+                    </button>
+                </span>
             </div>
         </div>
-    </div>
-</div>
+    </section>
 
-<div id="submitModal" class="modal-overlay">
-    <div class="modal-content">
-        <button id="closeModalBtn" class="close-btn">&times;</button>
-        <h2>寄送一封记忆</h2>
-        <p class="modal-desc">支持上传多张照片，展现更多细节。</p>
-        
-        <form action="https://formsubmit.co/16c4f24a794d820aacd1f721448208bd" method="POST" enctype="multipart/form-data" class="submit-form">
-            <input type="hidden" name="_subject" value="新的多图校友投稿！">
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_next" value="https://KylezXing.github.io/community.html">
+    <section class="gallery-section">
+        <div class="container" style="display: block;">
+            <div id="gallery-grid" class="gallery-grid">
+                <div class="gallery-card placeholder">加载中...</div>
+            </div>
+        </div>
+    </section>
 
-            <div class="form-group">
-                <label>你的名字 / 昵称</label>
-                <input type="text" name="name" required placeholder="例如：24届 计科 张三">
+    <div id="detailModal" class="detail-modal-overlay">
+        <div class="detail-modal-content">
+            <button id="closeDetailBtn" class="close-detail-btn">&times;</button>
+            
+            <div class="detail-layout">
+                <div class="detail-images">
+                    <div class="image-slider" id="detailSlider">
+                        </div>
+                    <div class="slider-dots" id="sliderDots">
+                        </div>
+                    <button class="slider-nav prev" id="sliderPrev">&#10094;</button>
+                    <button class="slider-nav next" id="sliderNext">&#10095;</button>
+                </div>
+
+                <div class="detail-info">
+                    <div class="author-info">
+                        <div class="avatar-circle" id="detailAvatar"></div>
+                        <h3 id="detailName"></h3>
+                    </div>
+                    <div class="scrollable-text">
+                        <p id="detailStory"></p>
+                    </div>
+                    <div class="detail-footer">
+                        <span>记忆留存由 KylezXing 呈现</span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label>背后的故事</label>
-                <textarea name="story" rows="4" required placeholder="写下关于这些照片的回忆..."></textarea>
-            </div>
-            <div class="form-group">
-                <label>上传照片 (可多选)</label>
-                <input type="file" name="attachment[]" accept="image/*" multiple required class="file-input">
-                <p style="font-size: 0.8rem; color: #999; margin-top: 5px;">* 按住 Ctrl 或 Cmd 键可选择多张</p>
-            </div>
-            <button type="submit" class="submit-btn">发送至邮箱</button>
-        </form>
+        </div>
     </div>
-</div>
+
+    <div id="submitModal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="closeModalBtn" class="close-btn">&times;</button>
+            <h2>寄送一封记忆</h2>
+            <p class="modal-desc">支持上传多张照片，展现更多细节。</p>
+            
+            <form action="https://formsubmit.co/16c4f24a794d820aacd1f721448208bd" method="POST" enctype="multipart/form-data" class="submit-form">
+                <input type="hidden" name="_subject" value="新的多图校友投稿！">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="https://KylezXing.github.io/community.html">
+
+                <div class="form-group">
+                    <label>你的名字 / 昵称</label>
+                    <input type="text" name="name" required placeholder="例如：24届 计科 张三">
+                </div>
+                <div class="form-group">
+                    <label>背后的故事</label>
+                    <textarea name="story" rows="4" required placeholder="写下关于这些照片的回忆..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>上传照片 (可多选)</label>
+                    <input type="file" name="attachment[]" accept="image/*" multiple required class="file-input">
+                    <p style="font-size: 0.8rem; color: #999; margin-top: 5px;">* 按住 Ctrl 或 Cmd 键可选择多张</p>
+                </div>
+                <button type="submit" class="submit-btn">发送至邮箱</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="app.js"></script>
+</body>
 </html>
